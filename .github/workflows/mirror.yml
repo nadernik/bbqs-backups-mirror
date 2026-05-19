@@ -1,0 +1,17 @@
+name: Mirror to nadernik/bbqs-backups-mirror
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirror
+        run: |
+          git clone --bare https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/brain-bbqs/bbqs-backups.git repo
+          cd repo
+          git push --force --all https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/nadernik/bbqs-backups-mirror.git
+          git push --force --tags https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/nadernik/bbqs-backups-mirror.git
